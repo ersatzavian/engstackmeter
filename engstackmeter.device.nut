@@ -9,6 +9,10 @@ const NUMPIXELS = 8;
 const RECONNECT_TIME = 900; // 15 min
 const RECONNECT_TIMEOUT = 60;
 
+// Disconnect message global
+disData <- "";
+disFlag <- false;
+
 // This table defines the fill levels and colors
 levels <- [
   {
@@ -32,7 +36,6 @@ levels <- [
     color = [64, 0, 0]
   }
 ];
-  
 cur_lvl <- 0;
 
 /* Global functions ----------------------------------------------------------*/
@@ -63,6 +66,9 @@ function up_event() {
         
         // redraw the gauge
         update();
+        
+        // tell the agent
+        agent.send("btn_event", cur_lvl);
     }
   
   // re-enable interrupts
@@ -89,6 +95,9 @@ function dn_event() {
         
         // redraw the gauge
         update();
+        
+        // tell the agent
+        agent.send("btn_event", cur_lvl);
     }
     
   // re-enable interrupts
